@@ -1,116 +1,38 @@
-# Задание 3.1
+# Задание 3.1 pro
+Написать код парсинга сайта [All products | Books to Scrape - Sandbox](https://books.toscrape.com)  и заполнить существующие таблицы вашей БД «Библиотека» (Таблицы «Книги», «Читатели»).
 
-Написать программу, которая удаляет из списка все элементы, стоящие на четных позициях:
-```python
-def delEvenElFromArray(arr):
-    newArr = []
-    for index in range(len(arr)):
-        if index % 2 == 0:
-            newArr.append(arr[index])
-    return newArr
+Для генерации недостающих данных можно использовать пакет [Faker](https://pypi.org/project/Faker/) 
 
-print(delEvenElFromArray([11,2,3,2,1,2,4,2,3]))
-```  
+Примечание:  Для выполнения данного задания вы можете выбрать любой сайт книжного издательства или магазина для парсинга.
 
-Написать программу, которая считывает список слов и находит слова, содержащие более трех гласных букв:
-```python
-def findStrWithThreeVowelsFromArray(arrOfStr):
-    arrayOfStrWithThreeVowels = []
-    vovels = ["а", "е", "ё", "и", "о", "у", "ы", "э", "ю", "я"]
-    for arrOfStrEl in arrOfStr:
-        vowelscCounter = 0
-        for strEl in arrOfStrEl:
-            if strEl in vovels:
-                vowelscCounter += 1
-        if vowelscCounter >= 3:
-            arrayOfStrWithThreeVowels.append(arrOfStrEl)
-    return(arrayOfStrWithThreeVowels)
+Задание может выполняться в Jupyter notebook (Локально), VScode, google colab. Выбирайте, исходя из своих возможностей/предпочтений.
 
-print(findStrWithThreeVowelsFromArray(['Написать',
-'программу,',
-'которая',
-'считывает',
-'список',
-'слов',
-'и',
-'находит',
-'слова,',
-'содержащие',
-'более',
-'трех',
-'гласных',
-'букв']))
-```  
+В ответе на задание необходимо предоставить следующее:
 
-Написать программу, которая находит второй по величине элемент в списке:
-```python
-def findSeсondMaxElFromArray(arrOfInt):
-    maxInt=arrOfInt[0]
-    secondMaxInt=0
-    temp=0
-    for intFromArray in arrOfInt:
-        if intFromArray > maxInt:
-            temp = maxInt
-            maxInt = intFromArray
-        if temp > secondMaxInt:
-            secondMaxInt = temp
-        if maxInt > intFromArray > secondMaxInt:
-            secondMaxInt = intFromArray
-    return(secondMaxInt)
+Код скрипта, который осуществляет парсинг веб-страницы и сохранение данных в базу данных. Код должен быть комментирован для лучшего понимания его работы.
 
-print(findSeсondMaxElFromArray([36,35,8,11,5,13,21,4,4,21,20, 33, 33, 34]))
-```  
+Код, который осуществляет загрузку данных в БД «Библиотека».
 
-Написать программу, которая удаляет из списка все дубликаты:
-```python
-def delAllDuplicate(arr):
-    newArr = []
-    for el in arr:
-        if el not in newArr:
-            newArr.append(el)
-    return newArr
+Примеры записей в таблицах «Книги» и «Читатели» с реальными данными, полученными в результате парсинга.
 
-print(delAllDuplicate([1, 5,'a','3',1 ,5 ,'a','3',1 ,5 ,'a','3', 33, 43, 1, 5,'a','33']))
-```  
+***
+Чтобы спарсить весь сайт, необходимо в `app/parser.py` заменить:  
+`URL_TEMPLATE = 'https://books.toscrape.com/catalogue/page-50.html'`  
+на  
+`URL_TEMPLATE = 'https://books.toscrape.com/'`  
 
-Написать программу, которая считывает данные из CSV-файла и создает словарь,
-где ключами являются значения в столбце «Name», а значениями — соответствующие им словари с информацией о поле,
-возрасте и зарплате:
-```python
-import csv
-def createDictFromCSV2(path):
-    with open(path, 'r', newline='') as csvfile:
-        spamreader = csv.reader(csvfile, delimiter = ";")
-        dictOfDicts = {}
-        colNames = []
-        counter = 0
-        for row in spamreader:
-            if counter == 0:
-                colNames = row
-            else:
-                personInfoDict = {}
-                for index in range(len(row)):
-                    if index != 0:
-                        personInfoDict.update({colNames[index]: row[index]})
-                dictOfDicts.update({row[0]:personInfoDict})
-            counter +=1
-    return dictOfDicts
+***
+Запуск:
+`docker-compose up`
 
-print(createDictFromCSV2('salary.csv'))
-```  
+Скрипт `app/parser.py` парсит данные с сайта, после окончания парсинга, сохраняет данные в `/csv/parsedData.csv`, запускается контейнер с Postgres, создает таблицу с данными из `/csv/parsedData.csv`  
 
-Написать программу, которая запрашивает у пользователя строку и выводит на экран все
-ее подстроки длиной не менее трех символов:
-```python
-def filterInputStr():
-    inputStr = input('Введите строку: ')
-    arrOfStr = inputStr.split()
-    newArr = []
-    for strEl in arrOfStr:
-        if len(strEl) >= 3:
-            newArr.append(strEl)
-    return ' '.join(newArr)
-
-print(filterInputStr())
+Postgres доступен:
+`localhost:5432`
 ```
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=parsed_data
+```
+
 

@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  app:
+    build: ./app
+    volumes:
+      - ./csv:/tmp
+  db:
+    build: ./db
+    depends_on:
+          app:
+            condition: service_completed_successfully
+    ports:
+      - 5432:5432
+    volumes:
+      - ./csv/:/docker-entrypoint-initdb.d/
+      - ./db/import_csv.sql:/docker-entrypoint-initdb.d/import_csv.sql
+    restart: always
+volumes:
+  db:
