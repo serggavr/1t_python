@@ -12,9 +12,9 @@ TOKEN_USER = os.getenv('TOKEN_USER_VK') # Токен пропиши в .env TOKE
 VERSION = '5.131'
 DOMAIN = '1tsprint'
 csv_path = "csv"
-posts_csv_path = 'csv/posts.csv'
-users_csv_path = 'csv/users.csv'
-group_info_csv_path = 'csv/group_info.csv'
+posts_csv_path = '%s/posts.csv' % csv_path
+users_csv_path = '%s/users.csv' % csv_path
+group_info_csv_path = '%s/group_info.csv' % csv_path
 
 # через api vk читаем посты в группе '1tsprint'
 def get_all_vk_wall_posts(TOKEN_USER, VERSION, DOMAIN):
