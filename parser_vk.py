@@ -11,6 +11,7 @@ load_dotenv()
 TOKEN_USER = os.getenv('TOKEN_USER_VK') # Токен пропиши в .env TOKEN_USER_VK=ТОКЕН или замените вызов os.getenv своим токеном
 VERSION = '5.131'
 DOMAIN = '1tsprint'
+csv_path = "csv"
 posts_csv_path = 'csv/posts.csv'
 users_csv_path = 'csv/users.csv'
 group_info_csv_path = 'csv/group_info.csv'
@@ -116,6 +117,11 @@ group_info_dataframe = pd.DataFrame(data={
 })
 
 print(group_info_dataframe.to_string())
+
+isExist = os.path.exists(csv_path)
+if not isExist:
+    os.makedirs(csv_path)
+
 
 posts_dataframe.to_csv(posts_csv_path, index=False, sep=';', encoding='utf-8-sig')
 users_dataframe.to_csv(users_csv_path, index=False, sep=';')
