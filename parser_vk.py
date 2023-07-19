@@ -113,7 +113,7 @@ users_dataframe = pd.DataFrame(group_users['ids'], columns=['id'])
 group_info_dataframe = pd.DataFrame(data={
     'Количество постов в группе': [group_posts['count']],
     'Количество подписчиков в группе': [group_users['count']],
-    'Количество подписчиков в репостов': [posts_dataframe['reposts_count'].sum()]
+    'Количество репостов в группе': [posts_dataframe['reposts_count'].sum()]
 })
 
 print(group_info_dataframe.to_string())
@@ -127,7 +127,8 @@ posts_dataframe.to_csv(posts_csv_path, index=False, sep=';', encoding='utf-8-sig
 users_dataframe.to_csv(users_csv_path, index=False, sep=';')
 group_info_dataframe.to_csv(group_info_csv_path, index=False, sep=';', encoding='utf-8-sig')
 
-print('CSV c постами из группы %(d)s в: %(posts_csv_path)s' % {'d': DOMAIN, 'posts_csv_path': posts_csv_path})
-print('CSV c id пользователей группы %(d)s в: %(users_csv_path)s' % {'d': DOMAIN, 'users_csv_path': users_csv_path})
+print('CSV c постами из группы %(s)s в: %(posts_csv_path)s' % {'s': DOMAIN, 'posts_csv_path': posts_csv_path})
+print('CSV c id пользователей группы %(s)s в: %(users_csv_path)s' % {'s': DOMAIN, 'users_csv_path': users_csv_path})
+print('CSV c сводной информацией группы %(s)s в: %(users_csv_path)s' % {'s': DOMAIN, 'users_csv_path': group_info_csv_path})
 
 
